@@ -1,17 +1,21 @@
+//este es el punto de entrada a la pagina de react
+//ademas es donde inicializamos redux con createstore 
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+import { reducers } from './reducers';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import './index.css';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
+const store = createStore(reducers, compose(applyMiddleware(thunk)));
+
+ReactDOM.render(
+  //provider nos permite acceder al state de redux desde cualquier lugar de la aplicacion gracias a que lo ponemos aca en el inicio de la aplicacion
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>,
+  document.getElementById('root'),
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
